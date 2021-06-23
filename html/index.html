@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+    <nav class="nav-bar">
+
+        <div class="heading">
+            <!-- <p class="inline-block">Made with ❤️ by Dhruv </p>
+            <a class="inline-block link-linkedin" href="https://www.linkedin.com/in/dhruv-rajput-4980681ab/" target="_blank">
+                <img class="linked-in" src="https://image.flaticon.com/icons/png/512/174/174857.png" alt="linkedIn" srcset="">
+            </a> -->
+        </div>
+
+        <a href="https://github.com/DHRUV-RAJPUT-777" target="_blank">
+            <img class="inline-block git-logo" src="https://www.sferalabs.cc/wp-content/uploads/github-logo-white.png"
+                alt="github">
+            <p class="inline-block git-text">Contribute</p>
+        </a>
+    </nav>
+
+    <div class="menu">
+        <div class="to-be-disabled rows">
+            <h3 class="inline-block">ROWS</h3> &nbsp;&nbsp;
+            <input class="dimension" onchange="createMatrix()" type="number" value="10" id="rows" min="2" max="50">
+        </div>
+        <div class="temp"></div>
+        <div class="to-be-disabled columns">
+            <h3 class="inline-block">COLS</h3> &nbsp;&nbsp;
+            <input class="dimension" onchange="createMatrix()" type="number" value="10" id="cols" min="2" max="50">
+        </div>
+        <div class="temp"></div>
+        <div class="to-be-disabled invert-block cursor-pointer" onclick="invertBlocks()">
+            <img style="width: 2rem; height: 2rem;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzte6Uta_Ykg8RBrt1JIsfKj7_ev9VBLdPQLWqcgLUSymZypOuP5IKGIcANQqt_BIZI6U&usqp=CAU"
+                alt="" srcset="">
+            &nbsp;&nbsp;
+            <h3 class="inline-block">INVERT</p>
+        </div>
+        <div class="temp"></div>
+        <div class="to-be-disabled start cursor-pointer" setStart="false" onclick="setStart()">
+            <img class="inline-block" style="height: 2.2rem; width: 2.4rem;"
+                src="https://cdn4.iconfinder.com/data/icons/materia-flat-basic-vol-2/24/009_074_checkpoint_geo_location_geolocation_target_complete-512.png"
+                alt="" srcset="">
+            &nbsp;&nbsp;<h3 class="inline-block">START</h3>
+        </div>
+        <div class="temp"></div>
+        <div class="to-be-disabled end cursor-pointer" onclick="setEnd()" setEnd="false">
+            <img class="inline-block" style="height: 2rem; width: 3.5rem;"
+                src="https://1000logos.net/wp-content/uploads/2017/06/Target-Logo-1968.jpg" alt="" srcset="">
+            <h3 class="inline-block">TARGET</h3>
+        </div>
+        <div class="temp"></div>
+        <div class="to-be-disabled algorithm cursor-pointer" algorithm="DFS">
+            <img class="inline-block" style="height: 2rem; width: 2rem;"
+                src="https://www.freeiconspng.com/thumbs/search-icon-png/search-icon-png-5.png" alt="" srcset="">
+            <h3 class="dfs algo selected inline-block" onclick="setAlgorithm(event , 'DFS')">DFS</h3>
+            <h3 class="inline-block">/</h3>
+            <h3 class="bfs algo inline-block" onclick="setAlgorithm(event , 'BFS')">BFS</h3>
+        </div>
+        <div class="temp"></div>
+        <div class="to-be-disabled run cursor-pointer" onclick="run()">
+            <img class="inline-block" style="height: 2rem; width: 2rem;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4-5KOBruCCxTPdst5aZoSKwPaF5rrQpE3ww&usqp=CAU"
+                alt="" srcset="">
+            &nbsp;<h3 class="inline-block">RUN</h3>
+        </div>
+    </div>
+    <hr />
+
+    <div id="menu-2">
+        <div class="to-be-disabled" id="speed-control">
+            <input type="range" class="inline-block  cursor-pointer" id="speed-controller" min="1" max="100" value="10">
+            &nbsp;&nbsp;
+            <h3 id="display-speed" class="inline-block">1x</h3>
+        </div>
+        <div class="temp"></div>
+        <div id="gen-random" class="to-be-disabled cursor-pointer" onclick="generateRandomMaze()">
+            <img style="height: 1.8rem; width: 1.8rem;" class="inline-block"
+                src="http://simpleicon.com/wp-content/uploads/shuffle.png" alt="" srcset="">
+            &nbsp;&nbsp;
+            <h3 class="gen-random-txt inline-block">RANDOM</h3>
+        </div>
+
+        <div class="temp"></div>
+        <div class="end-algorithm disabled-div cursor-pointer" id="terminate-algorithm" terminate="false" onclick="terminateAlgorithm()">
+            <img style="height: 2rem; width: 2rem;" class="inline-block" src="data:image/jpeg;base64,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" alt="" srcset="">
+            &nbsp;&nbsp;
+            <h3 class="inline-block">
+                FINISH
+            </h3>
+        </div>
+
+        <div class="temp"></div>
+        <div class="to-be-disabled reset cursor-pointer" onclick="reset()">
+            <img class="inline-block" style="height: 2.2rem; width: 2.2rem;"
+                src="https://image.freepik.com/free-icon/restart_318-1763.jpg" alt="" srcset="">
+            &nbsp;
+            <h3 class="inline-block">RESET</h3>
+        </div>
+        <!-- <div class="temp"></div> -->
+        <!-- <h3 id="tutorial" class="cursor-pointer">
+            TUTORIAL
+        </h3> -->
+    </div>
+    <hr />
+
+
+
+    <div id="warning">
+
+    </div>
+
+    <div id="maze-container">
+
+    </div>
+
+    <script src="/js/index.js"></script>
+    <!-- <script src="/js/algorithm.js"></script> -->
+
+</body>
+
+</html>
